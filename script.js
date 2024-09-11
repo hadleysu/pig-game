@@ -7,7 +7,8 @@ const score0El = document.getElementById('score--0');
 const score1El = document.getElementById('score--1');
 const diceEl = document.querySelector('.dice');
 
-let score;
+let currentScore;
+let totalScore;
 
 // Initialize the game
 const init = function () {
