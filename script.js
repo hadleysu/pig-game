@@ -1,6 +1,6 @@
 'use strict';
 
-const btnRollEl = document.querySelector('.btn--new');
+const btnRollEl = document.querySelector('.btn--roll');
 const btnHoldEl = document.querySelector('.btn--hold');
 const btnNewEl = document.querySelector('.btn--new');
 const score0El = document.getElementById('score--0');
@@ -16,3 +16,9 @@ const init = function () {
   diceEl.classList.add('hidden');
 };
 init();
+
+// User rolls dice
+btnRollEl.addEventListener('click', function () {
+  score = Math.trunc(Math.random() * 6 + 1);
+  console.log(score);
+});
