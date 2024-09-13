@@ -35,7 +35,7 @@ const init = function () {
 
 init();
 
-const swithPlayer = function () {
+const switchPlayer = function () {
   currentScore = 0;
   (whichPlayer ? currentScore1El : currentScore0El).textContent = 0;
   whichPlayer = !whichPlayer;
@@ -51,7 +51,7 @@ const handleDiceRoll = function (dice) {
       currentScore;
   } else {
     // Switch player
-    swithPlayer();
+    switchPlayer();
   }
 };
 
@@ -99,7 +99,7 @@ btnHoldEl.addEventListener('click', function () {
       currentPlayerWins();
     } else {
       // Switch player
-      swithPlayer();
+      switchPlayer();
     }
   }
 });
