@@ -13,7 +13,7 @@ const player1El = document.querySelector('.player--1');
 
 let currentScore;
 let totalScore;
-let whichPlayer;
+let activePlayer;
 let playing;
 
 // Initialize the game
@@ -23,7 +23,7 @@ const init = function () {
   diceEl.classList.add('hidden');
   currentScore = 0;
   totalScore = [0, 0];
-  whichPlayer = false;
+  activeplayer = false;
   playing = true;
   player0El.classList.add('player--active');
   player1El.classList.remove('player--active');
@@ -37,8 +37,8 @@ init();
 
 const switchPlayer = function () {
   currentScore = 0;
-  (whichPlayer ? currentScore1El : currentScore0El).textContent = 0;
-  whichPlayer = !whichPlayer;
+  (activeplayer ? currentScore1El : currentScore0El).textContent = 0;
+  activeplayer = !activeplayer;
   player0El.classList.toggle('player--active');
   player1El.classList.toggle('player--active');
 };
@@ -47,7 +47,7 @@ const handleDiceRoll = function (dice) {
   if (dice !== 1) {
     // Add dice to current score
     currentScore += dice;
-    (whichPlayer ? currentScore1El : currentScore0El).textContent =
+    (activeplayer ? currentScore1El : currentScore0El).textContent =
       currentScore;
   } else {
     // Switch player
@@ -59,10 +59,10 @@ const currentPlayerWins = function () {
   // Finish the game
   playing = false;
   diceEl.classList.add('hidden');
-  whichPlayer
+  activeplayer
     ? player1El.classList.add('player--winner')
     : player0El.classList.add('player--winner');
-  whichPlayer
+  activeplayer
     ? player1El.classList.remove('player--active')
     : player0El.classList.remove('player--active');
 };
@@ -86,16 +86,16 @@ btnRollEl.addEventListener('click', function () {
 btnHoldEl.addEventListener('click', function () {
   // Add curent score to total score
   if (playing) {
-    whichPlayer
+    activeplayer
       ? (totalScore[1] += currentScore)
       : (totalScore[0] += currentScore);
-    whichPlayer
+    activeplayer
       ? (score1El.textContent = totalScore[1])
       : (score0El.textContent = totalScore[0]);
     // Check if player's total score is >= 100
-    if (whichPlayer && totalScore[1] >= 100) {
+    if (activeplayer && totalScore[1] >= 100) {
       currentPlayerWins();
-    } else if (!whichPlayer && totalScore[0] >= 100) {
+    } else if (!activeplayer && totalScore[0] >= 100) {
       currentPlayerWins();
     } else {
       // Switch player
