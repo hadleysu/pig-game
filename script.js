@@ -25,6 +25,12 @@ const init = function () {
   totalScore = [0, 0];
   whichPlayer = false;
   playing = true;
+  player0El.classList.add('player--active');
+  player1El.classList.remove('player--active');
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
+  currentScore0El.textContent = 0;
+  currentScore1El.textContent = 0;
 };
 
 init();
@@ -97,3 +103,6 @@ btnHoldEl.addEventListener('click', function () {
     }
   }
 });
+
+// User resets game
+btnNewEl.addEventListener('click', init);
