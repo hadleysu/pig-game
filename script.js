@@ -14,6 +14,7 @@ const player1El = document.querySelector('.player--1');
 let currentScore;
 let totalScore;
 let whichPlayer;
+let playing;
 
 // Initialize the game
 const init = function () {
@@ -23,9 +24,18 @@ const init = function () {
   currentScore = 0;
   totalScore = [0, 0];
   whichPlayer = false;
+  playing = true;
 };
 
 init();
+
+const swithPlayer = function () {
+  currentScore = 0;
+  (whichPlayer ? currentScore1El : currentScore0El).textContent = 0;
+  whichPlayer = !whichPlayer;
+  player0El.classList.toggle('player--active');
+  player1El.classList.toggle('player--active');
+};
 
 const handleDiceRoll = function (dice) {
   if (dice !== 1) {
@@ -35,23 +45,55 @@ const handleDiceRoll = function (dice) {
       currentScore;
   } else {
     // Switch player
-    currentScore = 0;
-    (whichPlayer ? currentScore1El : currentScore0El).textContent = 0;
-    whichPlayer = !whichPlayer;
-    player0El.classList.toggle('player--active');
-    player1El.classList.toggle('player--active');
+    swithPlayer();
   }
+};
+
+const currentPlayerWins = function () {
+  // Finish the game
+  playing = false;
+  diceEl.classList.add('hidden');
+  whichPlayer
+    ? player1El.classList.add('player--winner')
+    : player0El.classList.add('player--winner');
+  whichPlayer
+    ? player1El.classList.remove('player--active')
+    : player0El.classList.remove('player--active');
 };
 
 // User rolls dice
 btnRollEl.addEventListener('click', function () {
   // 1. Generating a random dice roll
-  let dice = Math.trunc(Math.random() * 6 + 1);
+  if (playing) {
+    let dice = Math.trunc(Math.random() * 6 + 1);
 
-  // 2. Display dice
-  diceEl.src = `dice-${dice}.png`;
-  diceEl.classList.remove('hidden');
+    // 2. Display dice
+    diceEl.src = `dice-${dice}.png`;
+    diceEl.classList.remove('hidden');
 
-  // 3. Check for rolled 1
-  handleDiceRoll(dice);
+    // 3. Check for rolled 1
+    handleDiceRoll(dice);
+  }
+});
+
+// User handles score
+btnHoldEl.addEventListener('click', function () {
+  // Add curent score to total score
+  if (playing) {
+    whichPlayer
+      ? (totalScore[1] += currentScore)
+      : (totalScore[0] += currentScore);
+    whichPlayer
+      ? (score1El.textContent = totalScore[1])
+      : (score0El.textContent = totalScore[0]);
+    // Check if player's total score is >= 100
+    if (whichPlayer && totalScore[1] >= 100) {
+      currentPlayerWins();
+    } else if (!whichPlayer && totalScore[0] >= 100) {
+      currentPlayerWins();
+    } else {
+      // Switch player
+      swithPlayer();
+    }
+  }
 });
