@@ -37,7 +37,7 @@ init();
 
 const switchPlayer = function () {
   currentScore = 0;
-  (activeplayer ? currentScore1El : currentScore0El).textContent = 0;
+  document.getElementById(`current--${activePlayer}`).textContent = 0;
   activePlayer = activePlayer === 0 ? 1 : 0;
   player0El.classList.toggle('player--active');
   player1El.classList.toggle('player--active');
@@ -47,7 +47,7 @@ const handleDiceRoll = function (dice) {
   if (dice !== 1) {
     // Add dice to current score
     currentScore += dice;
-    (activeplayer ? currentScore1El : currentScore0El).textContent =
+    document.getElementById(`current--${activePlayer}`).textContent =
       currentScore;
   } else {
     // Switch player
@@ -59,12 +59,12 @@ const currentPlayerWins = function () {
   // Finish the game
   playing = false;
   diceEl.classList.add('hidden');
-  activeplayer
-    ? player1El.classList.add('player--winner')
-    : player0El.classList.add('player--winner');
-  activeplayer
-    ? player1El.classList.remove('player--active')
-    : player0El.classList.remove('player--active');
+  document
+    .querySelector(`.player--${activePlayer}`)
+    .classList.add('player--winner');
+  document
+    .querySelector(`.player--${activePlayer}`)
+    .classList.remove('player--active');
 };
 
 // User rolls dice
@@ -86,16 +86,11 @@ btnRollEl.addEventListener('click', function () {
 btnHoldEl.addEventListener('click', function () {
   // Add curent score to total score
   if (playing) {
-    activeplayer
-      ? (totalScore[1] += currentScore)
-      : (totalScore[0] += currentScore);
-    activeplayer
-      ? (score1El.textContent = totalScore[1])
-      : (score0El.textContent = totalScore[0]);
+    totalScore[activePlayer] += currentScore;
+    document.getElementById(`score--${activePlayer}`).textContent =
+      totalScore[activePlayer];
     // Check if player's total score is >= 100
-    if (activeplayer && totalScore[1] >= 100) {
-      currentPlayerWins();
-    } else if (!activeplayer && totalScore[0] >= 100) {
+    if (totalScore[activePlayer] >= 100) {
       currentPlayerWins();
     } else {
       // Switch player
