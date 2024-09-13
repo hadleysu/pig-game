@@ -23,7 +23,7 @@ const init = function () {
   diceEl.classList.add('hidden');
   currentScore = 0;
   totalScore = [0, 0];
-  activeplayer = 0; // Initialize 0 for player 0
+  activePlayer = 0; // Initialize 0 for player 0
   playing = true;
   player0El.classList.add('player--active');
   player1El.classList.remove('player--active');
